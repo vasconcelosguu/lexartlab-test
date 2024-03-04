@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 const LoginPage: React.FC = () => {
     const router = useRouter();
 
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.target.value);
+        setUsername(event.target.value);
     };
 
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,26 +19,26 @@ const LoginPage: React.FC = () => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        fetch('/api/users/login', {
+        fetch('/api/users/create', {
             method: 'POST',
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ username, password }),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-        router.push('/home');
+        router.push('/login');
     };
 
     return (
         <div>
-            <h1>Login</h1>
+            <h1>Create Account</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="username">Username:</label>
                     <input
                         type="text"
                         id="username"
-                        value={email}
+                        value={username}
                         onChange={handleUsernameChange}
                     />
                 </div>
@@ -54,11 +54,10 @@ const LoginPage: React.FC = () => {
                 <button type="submit">Login</button>
             </form>
             <div>
-                <p>New here?</p>
                 <button
                     onClick={() => { router.push('/signup') }}
                 >
-                    Create your Account
+                    Create Account
                 </button>
             </div>
         </div>
