@@ -10,9 +10,12 @@ interface UserAttributes {
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
 
 interface UserInstance extends Model<UserAttributes, UserCreationAttributes> {
+  email: string;
+  id: number;
+  password: string;
 }
 
-const User = sequelize.define<UserInstance>('User', {
+const User = sequelize.define<UserInstance>('Users', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -27,5 +30,7 @@ const User = sequelize.define<UserInstance>('User', {
     allowNull: false,
   },
 });
+
+User.sync();
 
 export default User;
