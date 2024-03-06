@@ -47,14 +47,13 @@ const CreatePage: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    // Aqui você pode enviar o corpo (phones) para o servidor
     console.log(phones);
   };
 
   return (
-    <main className="flex justify-center items-center min-h-screen bg-gray-200 overflow-auto">
-      <div className="p-6 bg-white rounded shadow-md w-full max-w-md">
-      <h1 className="text-4xl text-gray-700 font-bold mb-4">Adicionar telefones</h1>
+    <main className="flex justify-center items-center min-h-screen bg-gray-900 overflow-auto">
+      <div className="p-6 bg-gray-200 rounded shadow-md w-full max-w-md">
+      <h1 className="text-4xl text-gray-700 font-bold mb-4">Create Your Product</h1>
         {phones.map((phone, phoneIndex) => (
           <div key={phoneIndex} className="mb-4 space-y-4">
             <input
@@ -96,26 +95,26 @@ const CreatePage: React.FC = () => {
                 />
                 {dataIndex > 0 && (
                   <button type="button" onClick={() => removeData(phoneIndex, dataIndex)} className="bg-red-500 text-white p-2 mt-2 w-full">
-                    Remover
+                    Remove
                   </button>
                 )}
               </div>
             ))}
             <button type="button" onClick={() => addData(phoneIndex)} className="bg-blue-500 text-white p-2 mt-2 w-full">
-              Adicionar dados
+              Add Same Product
             </button>
             {phoneIndex > 0 && (
               <button type="button" onClick={() => removePhone(phoneIndex)} className="bg-red-500 text-white p-2 mt-2 w-full">
-                Remover telefone
+                Remove Product
               </button>
             )}
           </div>
         ))}
         <button type="button" onClick={addPhone} className="bg-blue-500 text-white p-2 mt-2 w-full">
-          Adicionar telefone
+          Add New Product
         </button>
         <button type="button" onClick={handleSubmit} className="bg-green-500 text-white p-2 mt-2 w-full">
-          Enviar
+          Send
         </button>
       </div>
     </main>
