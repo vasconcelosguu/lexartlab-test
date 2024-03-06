@@ -8,10 +8,6 @@ import 'dotenv/config';
 export async function POST(request: NextRequest) {
     const requestBody = await request.json();
     const { email, password } = requestBody;
-    
-    if (!email || !password) {
-        return NextResponse.json({ message: 'Please fill in all fields' }, { status: 400 });
-    }
 
     const user = await User.findOne({ where: { email } });
 

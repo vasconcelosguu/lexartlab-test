@@ -2,12 +2,16 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { UserSchema } from '@/utils/zod';
+import { FaUserPlus } from 'react-icons/fa';
+import Cookies from 'js-cookie';
 
 const LoginPage: React.FC = () => {
     const router = useRouter();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [badCredential, setBadCredential] = useState(false);
 
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -17,52 +21,74 @@ const LoginPage: React.FC = () => {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        fetch('/api/users/login', {
+    const checkCredentials = () => {
+        const result = UserSchema.safeParse({ email, password });
+        setBadCredential(!result.success);
+        return result.success;
+    };
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    if (checkCredentials()) {
+        const response = await fetch('/api/users/login', {
             method: 'POST',
             body: JSON.stringify({ email, password }),
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
-        router.push('/home');
+        });
+        if (response.ok) {
+            const data = await response.json();
+            Cookies.set('token', data.token);
+            Cookies.set('userId', data.userId);
+            router.push('/home');
+        } else {
+            setBadCredential(true);
+        }
+    }
     };
 
     return (
-        <div>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username:</label>
+        <main className="container mx-auto max-w-md py-8 px-4">
+            <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg space-y-6">
+                <h1 className="text-center text-gray-700 font-medium text-2xl">Login</h1>
+                {badCredential && <p className="text-center text-red-600">Credentials error</p>}
+                <div className="px-8 py-4">
+                    <label htmlFor="username" className="block text-gray-700 text-sm font-medium">Username:</label>
                     <input
                         type="text"
                         id="username"
                         value={email}
                         onChange={handleUsernameChange}
+                        className="border text-gray-700 border-gray-300 focus:outline-none focus:ring focus:border-blue-300 w-full py-2 px-3 mt-1"
                     />
                 </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
+                <div className="px-8 py-4">
+                    <label htmlFor="password" className="block text-gray-700 text-sm font-medium">Password:</label>
                     <input
                         type="password"
                         id="password"
                         value={password}
                         onChange={handlePasswordChange}
+                        className="border text-gray-700 border-gray-300 focus:outline-none focus:ring focus:border-blue-300 w-full py-2 px-3 mt-1"
                     />
                 </div>
-                <button type="submit">Login</button>
-            </form>
-            <div>
-                <p>New here?</p>
+                <div className="px-8 py-4">n
+                    <button type="submit" className="flex items-center justify-center h-12 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ease-in-out w-full cursor-pointer">Login</button>
+                </div>
+                <p className="text-center text-gray-700 text-xl">New Here?</p>
                 <button
                     onClick={() => { router.push('/signup') }}
+                    className="flex items-center justify-center h-12 bg-blue-600 text-white rounded-sm  hover:bg-blue-700 transition duration-300 ease-in-out w-full cursor-pointer"
                 >
-                    Create your Account
+                    <FaUserPlus color="white" size="20px" />
+                    <span className="text-white">Create your Account</span>
                 </button>
-            </div>
-        </div>
+            </form>
+
+        </main>
     );
 };
 
-export default LoginPage;
+export default LoginPage
