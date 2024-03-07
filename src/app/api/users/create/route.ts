@@ -18,15 +18,6 @@ export async function POST(request: NextRequest) {
 
   const user = await User.create({ email, password: hashedPassword });
 
-  console.log(user);
-
-  if (!user) {
-    return NextResponse.json(
-      { message: "Invalid credentials" },
-      { status: 401 }
-    );
-  }
-
   const token = jwt.sign(
     { email: user.email, id: user.id },
     process.env.JWT_SECRET!,
