@@ -20,15 +20,15 @@ const Header: React.FC = () => {
               href="/home"
               className="hover:text-teal-300 transition duration-200"
             >
-              HOME
+              home
             </a>
           </li>
           <li>
             <a
-              href="/add-product"
+              href="/create"
               className="hover:text-teal-300 transition duration-200"
             >
-              Add your product
+              add your product
             </a>
           </li>
           <li>
@@ -36,7 +36,7 @@ const Header: React.FC = () => {
               href="/my-products"
               className="hover:text-teal-300 transition duration-200"
             >
-              My products
+              my products
             </a>
           </li>
         </ul>
