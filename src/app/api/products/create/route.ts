@@ -5,7 +5,7 @@ import { decodeToken } from '@/utils/descript';
 import { JwtPayload } from "jsonwebtoken";
 import Product from "@/database/models/products";
 
-interface Product {
+interface Produto {
   name: string;
   brand: string;
   model: string;
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     const normalizedData = normalize(requestBody, email);
     console.log(normalizedData);
 
-    const createdProduct = await Promise.all(normalizedData.map((data: Product) => Product.create(data)));
+    const createdProduct = await Promise.all(normalizedData.map((data: Produto) => Product.create(data)));
 
 
     return NextResponse.json({ createdProduct, status: 201 });
