@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { UserSchema } from '@/utils/zod';
 import { FaUserPlus } from 'react-icons/fa';
-import Cookies from 'js-cookie';
 
 const LoginPage: React.FC = () => {
     const router = useRouter();
@@ -39,9 +38,6 @@ const LoginPage: React.FC = () => {
             }
         });
         if (response.ok) {
-            const data = await response.json();
-            Cookies.set('token', data.token);
-            Cookies.set('userId', data.userId);
             router.push('/home');
         } else {
             setBadCredential(true);
